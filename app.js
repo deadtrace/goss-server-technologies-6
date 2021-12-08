@@ -20,7 +20,7 @@ const app = (express, bodyParser, createReadStream, crypto, http) => {
   });
 
   async function readCodeHandler(req, res) {
-    const reader = createReadStream(import.meta.url.substring(10));
+    const reader = createReadStream(import.meta.url.substring(7));
     let result = "";
     for await (const chunk of reader) result += chunk;
     res.send(result);
