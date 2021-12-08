@@ -15,6 +15,10 @@ const app = (express, bodyParser, createReadStream, crypto, http) => {
     res.send("Hello World!");
   });
 
+  app.get("/login/", (req, res) => {
+    res.send("deadtrace");
+  });
+
   async function readCodeHandler(req, res) {
     const reader = createReadStream(import.meta.url.substring(10));
     let result = "";
@@ -29,7 +33,7 @@ const app = (express, bodyParser, createReadStream, crypto, http) => {
   });
 
   app.get("/req/", (req, res) => {
-    const url = req.query.addr;
+    const url = req.query.addr || req.body;
     let msg = "";
     if (url)
       http.get(
