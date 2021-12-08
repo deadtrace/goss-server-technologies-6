@@ -8,6 +8,4 @@ import appSrc from "./app.js";
 
 const app = appSrc(express, bodyParser, createReadStream, crypto, http);
 
-app.listen(3000, () => {
-  console.log(`Example app listening at http://localhost:3000`);
-});
+app.listen(process.env.PORT || 3000);
