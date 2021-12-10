@@ -1,5 +1,10 @@
-const app = (express, bodyParser, createReadStream, crypto, http) => {
+const app = (express, bodyParser, createReadStream, crypto, http, mongodb) => {
   const app = express();
+  const {
+    MongoClient: { connect },
+  } = mongodb;
+
+  app.use(express.urlencoded({ extended: false }));
 
   app.use(function (req, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -46,6 +51,15 @@ const app = (express, bodyParser, createReadStream, crypto, http) => {
         }
       );
     else res.send("Не удалось получить данные по URL");
+  });
+
+  app.post("/insert/", async (req, res) => {
+    const { login, password, URL } = req.body;
+    const conn = await connect(URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    await conn.collection("users").insertOne({ login, password });
   });
 
   app.get("*", (req, res) => {
